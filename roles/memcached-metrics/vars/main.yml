@@ -1,0 +1,4 @@
+---
+# file:roles/memcached-metrics/vars/main.yml
+
+module: memcached-metrics

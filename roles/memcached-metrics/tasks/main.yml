@@ -1,0 +1,23 @@
+---
+# file:roles/memcached-metrics/tasks/main.yml
+#
+- name: Copy {{ module }} to remote machine
+  copy: src={{ module }}.tar.gz dest={{ opbin_dir }} mode=644
+  ignore_errors: no
+
+- name: Install {{ module }}
+  shell: "su -l {{ deploy_user }} -c ' [ -d {{ opbin_dir }}/{{ module }} ] || ( cd {{ opbin_dir }} && tar -zxf {{ module }}.tar.gz && rm -rf {{ module }}.tar.gz ) '"
+  ignore_errors: yes
+
+- name: Copy {{ module }} cfg to remote machine
+  copy: src=cfg.json.memcached dest={{ opbin_dir }}/{{ module }}/cfg.json mode=644
+  ignore_errors: no
+
+- name: Start program for {{ module }} .
+  shell: chdir=/opt {{ item }}
+  with_items:
+    - "{{ opbin_dir }}/{{ module }}/control restart"
+  ignore_errors: no
+
+#- name: Setup {{ module }}
+#  copy: src=cfg.json.redis dest={{ opbin_dir }}/{{ module }}/cfg.json mode=644

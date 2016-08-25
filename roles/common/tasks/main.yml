@@ -1,0 +1,26 @@
+---
+# file:roles/common/tasks/main.yml
+
+- name: Make dirs for all host.
+  shell: chdir=/opt {{ item }}
+  with_items:
+    - "mkdir -p {{ opbin_dir }}"
+    - "mkdir -p {{ opdir_dir }}"
+    - "mkdir -p {{ opt_log_dir }}"
+  ignore_errors: yes
+#
+- name: Copy falcon-agent to remote machine
+  copy: src=agent.tar.gz dest={{ opbin_dir}} mode=644
+  ignore_errors: no
+
+- name: Install falcon-agent
+  shell: "su -l {{ deploy_user }} -c ' [ -d {{ opbin_dir }}/agent ] || ( cd {{ opbin_dir }} && tar -zxf agent.tar.gz && rm -rf agent.tar.gz ) '"
+  ignore_errors: yes
+
+- name: Setup falcon transfer url
+  template: src=cfg.json.j2 dest={{ opbin_dir }}/agent/cfg.json mode=0644
+
+- name: Start agent for this machine.
+  shell: chdir=/opt {{ item }}
+  with_items:
+    - "{{ opbin_dir }}/agent/control restart"

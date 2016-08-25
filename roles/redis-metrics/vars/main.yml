@@ -1,0 +1,4 @@
+---
+# file:roles/redis-metrics/vars/main.yml
+
+module: redis-metrics

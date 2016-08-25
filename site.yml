@@ -1,0 +1,16 @@
+---
+# Site Configuration
+# ==================
+
+- hosts: redis 
+  user: root
+  roles:
+    - { role: common, tags: ["common"] }
+    - { role: redis-metrics, tags: ["redis-metrics"] }
+
+- hosts: memcached
+  user: root
+  roles:
+    - { role: common, tags: ["common"] }
+    - { role: memcached-metrics, tags: ["memcached-metrics"] }
+

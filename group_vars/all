@@ -1,0 +1,14 @@
+---
+# Variables here are applicable to all host groups
+
+program_dir: "/opt/work"
+opbin_dir: "/opt/opbin"
+opdir_dir: "/opt/opdir"
+opt_log_dir: "/opt/log"
+
+deploy_user: "root"
+
+# falcon-agent url
+falcon_heartbeat_url: "falcon.domain.com:6030"
+falcon_transfer_url: "falcon.domain.com:8433"
+
