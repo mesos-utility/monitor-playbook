@@ -2,7 +2,7 @@
 # file:roles/redis-metrics/tasks/main.yml
 #
 - name: Copy redis-metrics to remote machine
-  copy: src=redis-metrics.tar.gz dest={{ opbin_dir}} mode=644
+  copy: src=redis-metrics.tar.gz dest={{ opbin_dir }} owner={{deploy_user}} group={{deploy_user} mode=644
   ignore_errors: no
 
 - name: Install redis-metrics
@@ -10,7 +10,7 @@
   ignore_errors: yes
 
 - name: Setup falcon transfer url
-  copy: src=cfg.json.redis dest={{ opbin_dir }}/{{ module }}/cfg.json mode=644
+  copy: src=cfg.json.redis dest={{ opbin_dir }}/{{ module }}/cfg.json owner={{deploy_user}} group={{deploy_user} mode=644
 
 - name: Start program for {{ module }} .
   shell: chdir=/opt {{ item }}
